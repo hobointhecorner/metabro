@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.Emby", "MB.Emby\MB.Emby.csproj", "{BB97ADCB-0856-4715-A3AE-6972FF678C2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.Pref", "MB.Pref\MB.Pref.csproj", "{930BC556-312A-45F2-99E1-2C7DA870B59C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.uTorrent", "MB.uTorrent\MB.uTorrent.csproj", "{F2472A35-7DEF-4C1D-BA45-FE0FFC5C3E61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.RSS", "MB.RSS\MB.RSS.csproj", "{974E8A24-3B30-4BF9-A6BE-991AE6299475}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.File", "MB.File\MB.File.csproj", "{F1E35D74-E59D-420B-B19D-2B7A93C2FC77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.TextParsing", "MB.TextParsing\MB.TextParsing.csproj", "{63F165F4-1B01-4E44-82BB-8186987E9894}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB97ADCB-0856-4715-A3AE-6972FF678C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB97ADCB-0856-4715-A3AE-6972FF678C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB97ADCB-0856-4715-A3AE-6972FF678C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB97ADCB-0856-4715-A3AE-6972FF678C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{930BC556-312A-45F2-99E1-2C7DA870B59C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{930BC556-312A-45F2-99E1-2C7DA870B59C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{930BC556-312A-45F2-99E1-2C7DA870B59C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{930BC556-312A-45F2-99E1-2C7DA870B59C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2472A35-7DEF-4C1D-BA45-FE0FFC5C3E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2472A35-7DEF-4C1D-BA45-FE0FFC5C3E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2472A35-7DEF-4C1D-BA45-FE0FFC5C3E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2472A35-7DEF-4C1D-BA45-FE0FFC5C3E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{974E8A24-3B30-4BF9-A6BE-991AE6299475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{974E8A24-3B30-4BF9-A6BE-991AE6299475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{974E8A24-3B30-4BF9-A6BE-991AE6299475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{974E8A24-3B30-4BF9-A6BE-991AE6299475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1E35D74-E59D-420B-B19D-2B7A93C2FC77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1E35D74-E59D-420B-B19D-2B7A93C2FC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1E35D74-E59D-420B-B19D-2B7A93C2FC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1E35D74-E59D-420B-B19D-2B7A93C2FC77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63F165F4-1B01-4E44-82BB-8186987E9894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63F165F4-1B01-4E44-82BB-8186987E9894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63F165F4-1B01-4E44-82BB-8186987E9894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63F165F4-1B01-4E44-82BB-8186987E9894}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B80B3B8B-351F-4D12-8FA6-057EBEDBA7F6}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://hobomedia.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = MB.Emby\\MB.Emby.csproj
+		SccProjectName1 = MB.Emby
+		SccLocalPath1 = MB.Emby
+		SccProjectUniqueName2 = MB.Pref\\MB.Pref.csproj
+		SccProjectName2 = MB.Pref
+		SccLocalPath2 = MB.Pref
+		SccProjectUniqueName3 = MB.uTorrent\\MB.uTorrent.csproj
+		SccProjectName3 = MB.uTorrent
+		SccLocalPath3 = MB.uTorrent
+		SccProjectUniqueName4 = MB.RSS\\MB.RSS.csproj
+		SccProjectName4 = MB.RSS
+		SccLocalPath4 = MB.RSS
+		SccProjectUniqueName5 = MB.File\\MB.File.csproj
+		SccProjectName5 = MB.File
+		SccLocalPath5 = MB.File
+		SccProjectUniqueName6 = MB.TextParsing\\MB.TextParsing.csproj
+		SccProjectName6 = MB.TextParsing
+		SccLocalPath6 = MB.TextParsing
+	EndGlobalSection
+EndGlobal

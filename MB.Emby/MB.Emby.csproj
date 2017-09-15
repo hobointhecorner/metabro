@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BB97ADCB-0856-4715-A3AE-6972FF678C2E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MB.Emby</RootNamespace>
+    <AssemblyName>MB.Emby</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>\\file01\Scripts\Metabro\Workspace\_Current\MB.Emby\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.1.0\lib\net4\System.Management.Automation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\ApiClient.cs" />
+    <Compile Include="Api\EmbyCollection.cs" />
+    <Compile Include="Api\EmbyEpisode.cs" />
+    <Compile Include="Api\EmbyItem.cs" />
+    <Compile Include="Api\EmbyLibrary.cs" />
+    <Compile Include="Api\EmbyMovie.cs" />
+    <Compile Include="Api\EmbyPlaylist.cs" />
+    <Compile Include="Api\EmbySeries.cs" />
+    <Compile Include="Api\EmbyTask.cs" />
+    <Compile Include="Api\EmbyUser.cs" />
+    <Compile Include="Cmdlet\EmbyMovie.cs" />
+    <Compile Include="Cmdlet\EmbySearchTerm.cs" />
+    <Compile Include="Cmdlet\EmbyTask.cs" />
+    <Compile Include="Cmdlet\EmbyCollection.cs" />
+    <Compile Include="Cmdlet\EmbyEpisode.cs" />
+    <Compile Include="Cmdlet\EmbyItem.cs" />
+    <Compile Include="Cmdlet\EmbyLibrary.cs" />
+    <Compile Include="Cmdlet\EmbyPlaylist.cs" />
+    <Compile Include="Cmdlet\EmbySeries.cs" />
+    <Compile Include="Cmdlet\EmbyUser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Initialize-MB.Emby.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MB.Emby.format.ps1xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MB.Emby.psd1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MB.File\MB.File.csproj">
+      <Project>{f1e35d74-e59d-420b-b19d-2b7a93c2fc77}</Project>
+      <Name>MB.File</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MB.Pref\MB.Pref.csproj">
+      <Project>{930bc556-312a-45f2-99e1-2c7da870b59c}</Project>
+      <Name>MB.Pref</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MB.TextParsing\MB.TextParsing.csproj">
+      <Project>{63f165f4-1b01-4e44-82bb-8186987e9894}</Project>
+      <Name>MB.TextParsing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
