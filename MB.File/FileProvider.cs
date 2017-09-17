@@ -85,6 +85,19 @@ namespace MB.File
             }
         }
 
+        public static string GetFile(string FileName, string Subdirectory = null)
+        {
+            if (TestFile(FileName, Subdirectory))
+            {
+                string path = GetFilePath(FileName, Subdirectory);
+                return System.IO.File.ReadAllText(path);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static void WriteFile<T>(T Content, string FileName, string Subdirectory = null)
         {
             string path = GetFilePath(FileName, Subdirectory);
@@ -96,9 +109,12 @@ namespace MB.File
             System.IO.File.WriteAllText(@path, serializedJson);
         }
 
-        public static void WriteFile(string Content, string Filename, string Subdirectory = null)
+        public static void WriteFile(string Content, string FileName, string Subdirectory = null)
         {
-
+            string path = GetFilePath(FileName, Subdirectory);
+            if (!TestFile(FileName, Subdirectory))
+                CreateFile(path);
+            System.IO.File.WriteAllText(@path, Content);
         }
 
         public static void RemoveFile(string FileName, string Subdirectory = null)

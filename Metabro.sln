@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.File", "MB.File\MB.File.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.TextParsing", "MB.TextParsing\MB.TextParsing.csproj", "{63F165F4-1B01-4E44-82BB-8186987E9894}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MB.Logging", "MB.Logging\MB.Logging.csproj", "{34D69DF5-5ACC-4385-A1F8-C4A4561172A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,35 +47,15 @@ Global
 		{63F165F4-1B01-4E44-82BB-8186987E9894}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63F165F4-1B01-4E44-82BB-8186987E9894}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63F165F4-1B01-4E44-82BB-8186987E9894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34D69DF5-5ACC-4385-A1F8-C4A4561172A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34D69DF5-5ACC-4385-A1F8-C4A4561172A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34D69DF5-5ACC-4385-A1F8-C4A4561172A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34D69DF5-5ACC-4385-A1F8-C4A4561172A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B80B3B8B-351F-4D12-8FA6-057EBEDBA7F6}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://hobomedia.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = MB.Emby\\MB.Emby.csproj
-		SccProjectName1 = MB.Emby
-		SccLocalPath1 = MB.Emby
-		SccProjectUniqueName2 = MB.Pref\\MB.Pref.csproj
-		SccProjectName2 = MB.Pref
-		SccLocalPath2 = MB.Pref
-		SccProjectUniqueName3 = MB.uTorrent\\MB.uTorrent.csproj
-		SccProjectName3 = MB.uTorrent
-		SccLocalPath3 = MB.uTorrent
-		SccProjectUniqueName4 = MB.RSS\\MB.RSS.csproj
-		SccProjectName4 = MB.RSS
-		SccLocalPath4 = MB.RSS
-		SccProjectUniqueName5 = MB.File\\MB.File.csproj
-		SccProjectName5 = MB.File
-		SccLocalPath5 = MB.File
-		SccProjectUniqueName6 = MB.TextParsing\\MB.TextParsing.csproj
-		SccProjectName6 = MB.TextParsing
-		SccLocalPath6 = MB.TextParsing
 	EndGlobalSection
 EndGlobal

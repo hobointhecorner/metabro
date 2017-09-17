@@ -35,6 +35,22 @@ namespace MB.TextParsing.QualityRules
         }
     }
 
+    [Cmdlet(VerbsCommon.Get, "FileQuality")]
+    public class GetFileQualityCmdlet : Cmdlet
+    {
+        [Parameter(Mandatory = true, Position = 0)]
+        public string FileName { get; set; }
+
+        [Parameter]
+        public List<QualityRule> QualityRule { get; set; } = FileQualityRule.GetQualityRule();
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            WriteObject(FileQualityRule.GetFileQuality(FileName, QualityRule));
+        }
+    }
+
     [Cmdlet(VerbsCommon.Get, nameof(FileQualityRule))]
     [OutputType(typeof(FileQualityRule))]
     public class GetFileQualityRuleCmdlet : Cmdlet

@@ -8,4 +8,4 @@ if (!(Get-uTorrentPref))
 	Initialize-uTorrentPref
 }
 
-if (!(Test-Path 'C:\Program Files\WindowsPowerShell\Modules'\mb))
+#if (!(Test-Path 'C:\Program Files\WindowsPowerShell\Modules'\mb))

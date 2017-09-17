@@ -27,7 +27,8 @@ namespace MB.uTorrent
         public string Hash { get; set; }
         public DateTime? DateAdded { get; set; }
         public DateTime? DateCompleted { get; set; }
-        public List<string> VideoFile { get; set; }
+        public List<string> VideoFile { get; set; } = new List<string>();
+        public List<string> File { get; set; } = new List<string>();
         public string Path { get; set; }
 
         public enum FileType
@@ -43,6 +44,11 @@ namespace MB.uTorrent
             TorrentAndData
         }
 
+        public Torrent()
+        {
+
+        }
+
         public Torrent(UTorrentAPI.Torrent ApiObject)
         {
             this.ApiTorrent = ApiObject;
@@ -56,11 +62,40 @@ namespace MB.uTorrent
             this.Path = ApiObject.SavePath;
 
             this.GetVideoFile(ApiObject);
+            this.GetFile(ApiObject);
+        }
+
+        public Torrent(string Hash)
+        {
+            Torrent ApiObject = GetTorrent(Hash).FirstOrDefault();
+            this.ApiTorrent = ApiObject.ApiTorrent;
+            this.Name = ApiObject.Name;
+            this.Status = ApiObject.Status;
+            this.StatusTag = ApiObject.Status.ToString().Split(',');
+            this.Label = ApiObject.Label;
+            this.Hash = ApiObject.Hash;
+            this.DateAdded = ApiObject.DateAdded;
+            this.DateCompleted = ApiObject.DateCompleted;
+            this.Path = ApiObject.Path;
+            this.File = ApiObject.File;
+            this.VideoFile = ApiObject.VideoFile;
         }
 
         public override string ToString()
         {
             return this.Name;
+        }
+
+        void GetFile(UTorrentAPI.Torrent ApiObject)
+        {
+            List<string> output = new List<string>();
+            if (ApiObject.Files != null)
+            {
+                foreach (var file in ApiObject.Files)
+                    output.Add(string.Format("{0}\\{1}", Path, file.Path));
+            }
+
+            File = output;
         }
 
         void GetVideoFile(UTorrentAPI.Torrent ApiObject)

@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace MB.RSS
 {
+    public enum TorrentProviderType
+    {
+        Feed,
+        Search
+    }
+
     public class RssTorrentProvider
     {
         public string Name { get; set; }
@@ -89,7 +95,7 @@ namespace MB.RSS
         [Parameter]
         public string Type { get; set; } = "*";
 
-        [Parameter]
+        [Parameter (Position = 0)]
         public string Name { get; set; } = "*";
 
         protected override void ProcessRecord()
