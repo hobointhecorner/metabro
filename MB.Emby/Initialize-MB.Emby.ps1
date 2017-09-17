@@ -1,4 +1,8 @@
-﻿if (!(Get-Module MB.Pref -ErrorAction SilentlyContinue))
+﻿param(
+	[switch]$Force
+)
+
+if (!(Get-Module MB.Pref -ErrorAction SilentlyContinue))
 {
 	Import-Module "MB.Pref" -ErrorAction Stop
 }
@@ -17,7 +21,7 @@ function Initialize-EmbyPref
 	$pref.WritePref()
 }
 
-if (!(Get-EmbyPref))
+if (!(Get-EmbyPref) -or $Force)
 {
 	Initialize-EmbyPref
 }

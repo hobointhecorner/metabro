@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Management.Automation;
 
 namespace MB.Logging
 {
@@ -39,6 +40,28 @@ namespace MB.Logging
             }
 
             EventLog.WriteEntry(Source, Message, entryType);
+        }
+    }
+
+    [Cmdlet(VerbsCommon.New, "MBEventLog")]
+    public class NewMBEventLogCmdlet : Cmdlet
+    {
+        [Parameter(Mandatory = true)]
+        public string Message { get; set; }
+
+        [Parameter(Mandatory = true)]
+        public string Source { get; set; }
+
+        [Parameter]
+        public LogType LogType { get; set; } = LogType.Information;
+
+        [Parameter]
+        public string LogName { get; set; } = "Metabro";
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            Logger.WriteLog(Message, Source, LogType, LogName);
         }
     }
 }
