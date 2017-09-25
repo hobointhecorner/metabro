@@ -184,23 +184,24 @@ function Update-EmbyAutoPlaylist
         $oldInfoPref = $InformationPreference
         $InformationPreference = 'continue'
         $pref = Get-EmbyPref
+		$actionLog = ""
     }
 
     process
     {
         foreach ($collectionName in $pref.AutoPlaylistCollection)
         {
-            Write-Information "`nFetching desired episodes for collection $collectionName"
+            $actionLog += Write-MBOutput "Fetching desired episodes for collection $collectionName" -PassThru
             $desiredCollectionEpisodeList = Get-EmbyCollection $collectionName | 
                 Get-EmbyCollectionItem |
                 foreach { Get-EmbyEpisode -Series $_.Id }
                 
-            Update-EmbySharedPlaylist -PlaylistName $collectionName -DesiredEpisodeList $desiredCollectionEpisodeList -Username $Username
+            $actionLog += Update-EmbySharedPlaylist -PlaylistName $collectionName -DesiredEpisodeList $desiredCollectionEpisodeList -Username $Username
         }
 
         foreach ($libraryName in $pref.AutoPlaylistLibrary)
         {
-            Write-Information "`nFetching desired episodes for library $LibraryName"
+            $actionLog += Write-MBOutput "`nFetching desired episodes for library $LibraryName" -PassThru
             $desiredLibraryEpisodeList = Get-EmbyLibrary $libraryName | Get-EmbyEpisode -Limit 0
 
             Update-EmbySharedPlaylist -PlaylistName $libraryName -DesiredEpisodeList $desiredLibraryEpisodeList -Username $Username
@@ -209,6 +210,7 @@ function Update-EmbyAutoPlaylist
 
     end
     {
+		if ($actionLog -ne "") { New-MBEventLog -Message $actionLog -Source $logSource }
         $InformationPreference = $oldInfoPref 
     }
 }
@@ -230,91 +232,169 @@ function Complete-Torrent
         $oldInfoPref = $InformationPreference
         $InformationPreference = 'continue'
         [string[]]$deleteList = $null
+		$actionLog = Write-MBOutput "Fetching torrent $hash`n" -PassThru
     }
 
     process
     {
         #Find torrent
-        Write-Information "Fetching torrent $hash"
-        $torrent = Get-Torrent -Hash $Hash
-        switch ((Get-Item $torrent.path).GetType().FullName)
-        {
-            'System.IO.DirectoryInfo' { $pathType = 'Directory' ; break }
-            'System.IO.FileInfo' { $pathType = 'File' ; break } 
-        }
+		try
+		{
+			$torrent = Get-Torrent -Hash $Hash
+		
+			Write-Debug 'Got torrent'
 
-        if ($torrent.Label -and ((Get-uTorrentPref).PrivateTrackers -contains $torrent.Label)) { $private = $true }
-        else { $private = $false }
+			if (Test-Path $torrent.path)
+			{
+				switch ((Get-Item $torrent.path).GetType().FullName)
+				{
+					'System.IO.DirectoryInfo' { $pathType = 'Directory' ; break }
+					'System.IO.FileInfo' { $pathType = 'File' ; break } 
+				}
+			}
+			else
+			{
+				$pathType = $null
+			}
+
+			Write-Debug 'Got torrent path type'
+
+			if ($torrent.Label -and ((Get-uTorrentPref).PrivateTrackers -contains $torrent.Label)) { $privateProvider = $true }
+			else { $privateProvider = $false }
         
+			Write-Debug 'Got provider type'
+		}
+		catch
+		{
+			Write-MBError $_ -WriteEventLog -EventMessage 'Error fetching torrent:' -EventSource $logSource
+		}
+		
         Write-Debug butts
 
-        #Stop torrent if not private
-        if ($private)
-        {
-            Write-Warning "Not stopping $($torrent.Name) because it is a private provider"
-        }
-        else
-        {
-            Write-Information "Stopping $($torrent.Name)"
-            Stop-Torrent -Torrent $Hash
-            $deleteList += $torrent.Path
-        }
+		if ($torrent)
+		{
+			#Stop torrent if not private
+			try
+			{
+				if ($privateProvider)
+				{
+					$actionLog += Write-MBOutput "Not stopping $($torrent.Name) because it is a private provider`n" -OutputType Warning -PassThru
+				}
+				else
+				{
+					$actionLog += Write-MBOutput "Stopping $($torrent.Name)`n" -PassThru
+					Stop-Torrent -Torrent $Hash
+					$deleteList += $torrent.Path
+				}
+			}
+			catch
+			{
+				Write-MBError $_ -WriteEventLog -EventMessage 'Error stopping torrent:' -EventSource $logSource
+			}
 
-        if ($Decompress -and ($pathType -ieq 'directory'))
-        {
-            if ($rar = gci $torrent.Path | where { $_.Name -like "*.rar" } | sort name | select -First 1)
-            {
-                Write-Information "Unzipping $rar"
-                Invoke-FSDecompress -Path $rar.fullname |`
-                    where { (Get-FileQuality $_) -ge 10 } |`
-                    foreach {
-                        $torrent.VideoFile += $_
-                        $deleteList += $_
-                    }
-            }
-            else
-            {
-                Write-Warning "No files found to decompress"
-            }
-        }
+			#Decompress torrent files
+			try
+			{
+				if ($Decompress -and ($pathType -ieq 'directory'))
+				{
+					if ($rar = gci $torrent.Path | where { $_.Name -like "*.rar" } | sort name | select -First 1)
+					{
+						$actionLog += Write-MBOutput "Unzipping $rar`n" -PassThru
+						Invoke-FSDecompress -Path $rar.fullname |`
+							where { (Get-FileQuality $_) -ge 10 } |`
+							foreach {
+								$torrent.VideoFile += $_
+								$deleteList += $_
+							}
+					}
+					else
+					{
+						$actionLog += Write-MBOutput "No files found to decompress`n" -OutputType Warning -PassThru
+					}
+				}
+			}
+			catch
+			{
+				Write-MBError $_ -WriteEventLog -EventMessage 'Error decompressing torrent file(s):' -EventSource $logSource
+			}
 
-        if ($CopyFile)
-        {
-            if ($torrent.VideoFile)
-            {
-                $torrent.VideoFile | foreach { Write-Information "Copying $_ to $CopyPath" ; Copy-Item -LiteralPath $_ -Destination $CopyPath }
-            }
-            else
-            {
-                Write-Warning "No files found to copy"
-            }
-        }
+			#Copy video files
+			try
+			{
+				if ($CopyFile)
+				{
+					if ($torrent.VideoFile -and $pathType)
+					{
+						$torrent.VideoFile |
+							foreach {
+								$actionLog += Write-MBOutput "Copying $_ to $CopyPath`n" -PassThru
+								Copy-Item -LiteralPath $_ -Destination $CopyPath
+							}
+					}
+					else
+					{
+						$actionLog += Write-MBOutput "No files found to copy`n" -OutputType Warning -PassThru
+					}
+				}
+			}
+			catch
+			{
+				Write-MBError $_ -WriteEventLog -EventMessage 'Error copying torrent file(s):' -EventSource $logSource
+			}
 
-        if ($RunEmbyActions)
-        {
-            Write-Information "Organizing media files"
-            Start-EmbyTask Organize | out-null
-            sleep 30
+			#Run emby actions
+			try
+			{
+				if ($RunEmbyActions)
+				{
+					$actionLog += Write-MBOutput "Organizing media files`n" -PassThru
+					Start-EmbyTask Organize* | out-null
+					sleep 30
 
-            Write-Information "Scanning emby library"
-            Start-EmbyTask ScanLibrary | out-null
-        }
+					$actionLog += Write-MBOutput "Scanning emby library`n" -PassThru
+					Start-EmbyTask "scan media*"| out-null
+				}
+			}
+			catch
+			{
+				Write-MBError $_ -WriteEventLog -EventMessage "Error running Emby actions:" -EventSource $logSource
+			}
 
-        if (!$private -and $RemoveTorrent)
-        {
-            $torrent | Remove-Torrent -RemovalOption Data            
-        }
-        
-        $deleteList |
-            where {Test-Path $_} |
-            foreach { 
-                Write-Information "Deleting $_"
-                Remove-Item -LiteralPath $_ -Confirm:$false -Force
-            }
+			write-debug "Removing torrent"
+
+			#Remove torrent
+			try
+			{
+				if (!$privateProvider -and $pathType -and $RemoveTorrent)
+				{
+					$actionLog += Write-MBOutput "Removing $($torrent.Name)`n" -OutputType Warning -PassThru
+					$torrent | Remove-Torrent -RemovalOption Data            
+				}
+
+				if ($deleteList)
+				{
+					$deleteList |
+						where {Test-Path $_} |
+						foreach { 
+							$actionLog += Write-MBOutput "Deleting $_`n" -PassThru
+							Remove-Item -LiteralPath $_ -Confirm:$false -Force
+						}
+				}
+			}
+			catch
+			{
+				Write-MBError $_ -WriteEventLog -EventMessage "Error removing torrent:" -EventSource $logSource
+			}
+		}
+		else
+		{
+			$actionLog += Write-MBOutput "No torrent found for hash $Hash" -OutputType Warning
+		}
     }
 
     end
     {
+		if ($actionLog -ne "") { New-MBEventLog -Message $actionLog -Source $logSource }
         $InformationPreference = $oldInfoPref
     }
 }
@@ -322,7 +402,7 @@ function Complete-Torrent
 function Clear-Torrent
 {
     param(
-        [int]$KeepDays = 14
+        [int]$KeepDays = 7
     )
     
     if ($KeepDays -gt 0) { $KeepDays = $KeepDays * -1 }

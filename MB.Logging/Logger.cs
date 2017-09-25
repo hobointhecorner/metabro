@@ -64,4 +64,70 @@ namespace MB.Logging
             Logger.WriteLog(Message, Source, LogType, LogName);
         }
     }
+
+    [Cmdlet(VerbsCommunications.Write, "MBOutput")]
+    public class WriteMBOutputCmdlet : Cmdlet
+    {
+        [Parameter(Mandatory = true, Position = 0)]
+        public string Output { get; set; }
+
+        [Parameter()]
+        public LogType OutputType { get; set; } = LogType.Information;
+
+        [Parameter()]
+        public SwitchParameter PassThru { get; set; }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+
+            switch (OutputType)
+            {
+                case LogType.Error:
+                    break;
+
+                case LogType.Warning:
+                    WriteWarning(Output);
+                    break;
+
+                case LogType.Information:
+                    WriteInformation(new InformationRecord(Output, "Metabro"));
+                    break;
+            }
+
+            if (PassThru)
+            {
+                WriteObject(Output);
+            }
+        }
+    }
+
+    [Cmdlet(VerbsCommunications.Write, "MBError")]
+    public class WriteMBErrorCmdlet : Cmdlet
+    {
+        [Parameter(Mandatory = true, Position = 0)]
+        public ErrorRecord Exception { get; set; }
+
+        [Parameter()]
+        public SwitchParameter WriteEventLog { get; set; }
+
+        [Parameter()]
+        public string EventMessage { get; set; } = string.Empty;
+
+        [Parameter()]
+        public string EventSource { get; set; }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+
+            WriteError(Exception);
+
+            if (WriteEventLog)
+            {
+                string errorMessage = string.Format("{0}\n{1}\n{2}", EventMessage, Exception.Exception.Message, Exception.InvocationInfo.PositionMessage);
+                Logger.WriteLog(errorMessage, EventSource, LogType.Error);
+            }
+        }
+    }
 }

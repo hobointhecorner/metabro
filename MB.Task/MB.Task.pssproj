@@ -38,7 +38,6 @@ copy-item -literalpath C:\Users\codyl\source\TFS\Metabro\Metabro\MB.Task\MB.Task
   <ItemGroup>
     <Compile Include="MB.Task.psd1" />
     <Compile Include="MB.Task.psm1" />
-    <Compile Include="MB.Task.tests.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

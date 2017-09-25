@@ -2,9 +2,10 @@
 param(
     [Parameter(ValueFromPipeline = $true)]
     [string[]]$Module = "MB.*",
-    [string]$Source = '\\file01\scripts\metabro\release',
+    [string]$Source,
     [string]$Destination = 'c:\program files\windowspowershell\modules',
-    [switch]$Force = $true
+    [switch]$Force,
+	[switch]$InitializePrefs
 )
 
 begin
@@ -12,6 +13,8 @@ begin
     $LogName = "Metabro"
     $oldInfoPref = $InformationPreference
     $InformationPreference = 'continue'
+
+	if (!$Source) { $Source = $PSScriptRoot }
 
     If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
     {   
@@ -29,7 +32,8 @@ begin
             [string]$SourcePath,
             [string]$DestinationPath,
             [string]$LogName,
-            [switch]$Force
+            [switch]$Force,
+			[switch]$InitializePrefs
         )
 
         begin
@@ -69,8 +73,7 @@ begin
             #Run init script, if one exists
             if ($initScript = gci $modulePath -Filter "Initialize-*.ps1" | select -First 1)
             {
-                #Write-Information "`n"
-                . $initScript.FullName -Force:$Force
+                . $initScript.FullName -Force:$InitializePrefs
             }
         }
 
@@ -86,7 +89,9 @@ process
     if (($Module -contains 'MB.Pref') -or ($Module -ieq 'mb.*'))
     {
         gci $Source -Filter 'MB.Pref' |
-            foreach { Install-MBModule -SourcePath $_.FullName -DestinationPath $Destination -LogName $LogName -Force:$Force }
+            foreach {
+				Install-MBModule -SourcePath $_.FullName -DestinationPath $Destination -LogName $LogName -Force:$Force -InitializePrefs:$InitializePrefs
+			}
     }
 
     foreach ($moduleName in $Module)
@@ -94,7 +99,7 @@ process
         gci $Source -Filter $moduleName |
             where { $_.Name -ine 'mb.pref' } |
             foreach {
-                Install-MBModule -SourcePath $_.FullName -DestinationPath $Destination -LogName $LogName -Force:$Force
+                Install-MBModule -SourcePath $_.FullName -DestinationPath $Destination -LogName $LogName -Force:$Force -InitializePrefs:$InitializePrefs
             }
     }
 }

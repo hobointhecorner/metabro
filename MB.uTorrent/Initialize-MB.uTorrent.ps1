@@ -11,5 +11,3 @@ if (!(Get-uTorrentPref) -or $Force)
 {
 	Initialize-uTorrentPref
 }
-
-#if (!(Test-Path 'C:\Program Files\WindowsPowerShell\Modules'\mb))
