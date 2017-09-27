@@ -307,6 +307,94 @@ namespace MB.uTorrent
         }
     }
 
+    [Cmdlet(VerbsCommon.Find, nameof(Torrent))]
+    [OutputType(typeof(List<Torrent>))]
+    public class FindTorrentCmdlet : PSCmdlet
+    {
+        [Parameter(ValueFromPipeline = true)]
+        public List<Torrent> TorrentList { get; set; }
+
+        [Parameter]
+        public string Name { get; set; }
+
+        [Parameter]
+        public string SeriesName { get; set; }
+
+        [Parameter]
+        public int? SeasonNumber { get; set; }
+
+        [Parameter]
+        public int? EpisodeNumber { get; set; }
+
+        [Parameter]
+        public DateTime? AirDate { get; set; }
+
+        [Parameter]
+        public bool Dispose { get; set; } = true;
+
+        uTorrentClient ApiClient = new uTorrentClient();
+
+        protected override void BeginProcessing()
+        {
+            base.BeginProcessing();
+            if (TorrentList == null)
+                TorrentList = Torrent.GetTorrent(ApiClient);
+        }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            if (Name != null)
+            {
+                TorrentList = (from Torrent t in TorrentList
+                                where TextParser.TestSimpleMatch(Name, t.Name)
+                                select t).ToList();
+            }
+
+            if (SeriesName != null)
+            {
+                throw new NotImplementedException();
+                /*
+                TorrentList = from Torrent t in TorrentList
+                             where TextParser.TestSimpleMatch(SeriesName, t.SeriesName)
+                             select t;
+                */
+            }
+
+            if (SeasonNumber != null)
+            {
+                TorrentList = (from Torrent t in TorrentList
+                              where SeasonNumber == TextParser.GetSeasonEpisodeNumber(t.Name).Episode[0]
+                              select t).ToList();
+            }
+
+            if (EpisodeNumber != null)
+            {
+                TorrentList = (from Torrent t in TorrentList
+                              where EpisodeNumber == TextParser.GetSeasonEpisodeNumber(t.Name).Season
+                              select t).ToList();
+            }
+
+            if (AirDate != null)
+            {
+                TorrentList = (from Torrent t in TorrentList
+                              where TextParser.GetAirDate(t.Name) == AirDate
+                              select t).ToList();
+            }
+
+            if (TorrentList != null)
+                foreach (Torrent torrent in TorrentList)
+                    WriteObject(torrent);
+        }
+
+        protected override void EndProcessing()
+        {
+            base.EndProcessing();
+            if (Dispose)
+                ApiClient.Dispose();
+        }
+    }
+
     [Cmdlet(VerbsCommon.Add, nameof(Torrent))]
     public class AddTorrentCmdlet : PSCmdlet
     {

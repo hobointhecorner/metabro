@@ -52,29 +52,20 @@ namespace MB.TextParsing
 
     public static class TextParser
     {
-        public static List<char> RestrictedCharacters = new List<char> { '(', ')', '!', '?', '/', '[', ']', '*', '&', '%', '$', '#', '@', '-', '\'' };
-        public static List<String> RestrictedVideoInfoStrings = new List<string> { "720p", "1080p", "x.264", "x264" };
-
-        public static Dictionary<string, string> SnEpMatches = new Dictionary<string, string>()
+        static List<char> RestrictedCharacters = new List<char> { '(', ')', '!', '?', '/', '[', ']', '*', '&', '%', '$', '#', '@', '-', '\'' };
+        static List<String> RestrictedVideoInfoStrings = new List<string> { "720p", "1080p", "x.264", "x264" };
+        static Dictionary<string, string> SnEpMatches = new Dictionary<string, string>()
         {
             { "SxxExxExx", @"s\d{1,4}e\d{1,3}e\d{1,3}" },
             { "SxxExx",  @"s\d{1,4}e\d{1,3}" },
             { "xxXxx", @"\d{1,2}x\d{1,3}" }
         };
-        public static Dictionary<string, string> DateMatches = new Dictionary<string, string>()
+        static Dictionary<string, string> DateMatches = new Dictionary<string, string>()
         {
             { "xxxxxx", @"\d{6}" },
             { "yyyy.mm.dd", @"\d{4}[^a-zA-Z0-9]\d{2}[^a-zA-Z0-9]\d{2}" },
             { "xx.xx.yyyy", @"\d{2}[^a-zA-Z0-9]\d{2}[^a-zA-Z0-9]\d{4}" }
         };
-
-        public static bool TestSimpleMatch(string Pattern, string Text)
-        {
-            string regString = string.Format("^{0}$", Regex.Escape(Pattern.ToLower()).Replace("\\*", ".*"));
-            Regex matchRegex = new Regex(regString);
-
-            return matchRegex.IsMatch(Text.ToLower());
-        }
 
         public static string GetSafeString(string FileName)
         {
@@ -98,9 +89,8 @@ namespace MB.TextParsing
                 resultString = resultString.Replace(restrictedVideoInfo, null);
             }
 
-            resultString = new Regex(@"\s\s+").Replace(resultString, " ");
-
-            return resultString.Trim();
+            resultString = new Regex(@"\s\s+").Replace(resultString, " ").Trim();
+            return resultString;
         }        
         public static string GetRegexString(string FileName)
         {
@@ -121,6 +111,14 @@ namespace MB.TextParsing
             int l = FileName.Length - f;
 
             return FileName.Substring(f, l);
+        }
+
+        public static bool TestSimpleMatch(string Pattern, string Text)
+        {
+            string regString = string.Format("^{0}$", Regex.Escape(Pattern.ToLower()).Replace("\\*", ".*"));
+            Regex matchRegex = new Regex(regString);
+
+            return matchRegex.IsMatch(Text.ToLower());
         }
 
         public static SeasonEpisode GetSeasonEpisodeNumber(string FileName)
