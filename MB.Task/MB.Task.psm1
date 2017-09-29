@@ -402,7 +402,9 @@ function Complete-Torrent
 function Clear-Torrent
 {
     param(
-        [int]$KeepDays = 7
+		[switch]$Remove = $true,
+        [int]$KeepDays = 7,
+		[int]$PrivateKeepDays = 3
     )
     
     if ($KeepDays -gt 0) { $KeepDays = $KeepDays * -1 }
@@ -418,14 +420,21 @@ function Clear-Torrent
     if ($removePrivateTorrentCount -gt 0)
     {
         $privateTorrent |
+			where { $_.DateAdded -ge (Get-Date).AddDays($PrivateKeepDays) } |
             sort DateAdded -Descending |
             select -Last $removePrivateTorrentCount |
-            foreach { $removeList += $_ }
+            foreach { 
+				if ($Remove) { $removeList += $_ }
+				Write-Output $_
+			}
     }
         
      $publicTorrent |
         where { $_.DateAdded -ge (Get-Date).AddDays($KeepDays) } |
-        foreach { $removeList += $_ }
+        foreach {
+			if ($Remove) { $removeList += $_ }
+			Write-Output $_ 
+		}
         
     $removeList | Remove-Torrent -RemovalOption Data
 }

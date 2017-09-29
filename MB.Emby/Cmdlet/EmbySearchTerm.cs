@@ -44,7 +44,7 @@ namespace MB.Emby
             Dictionary<string, string> output = new Dictionary<string, string>();
             foreach (EmbySearchTerm term in SearchTerm)
                 output.Add(term.SearchTerm, term.SeriesName);
-            
+
             return output;
         }
 
@@ -58,12 +58,12 @@ namespace MB.Emby
             return "SearchTerms.json";
         }
 
-        public static IEnumerable<EmbySearchTerm>GetSearchTerm()
+        public static IEnumerable<EmbySearchTerm> GetSearchTerm()
         {
             return FileProvider.GetFile<List<EmbySearchTerm>>(GetFileName(), GetSubDirectory());
         }
 
-        public static void WriteSearchTerm(List<EmbySearchTerm>SearchTerm)
+        public static void WriteSearchTerm(List<EmbySearchTerm> SearchTerm)
         {
             FileProvider.WriteFile<List<EmbySearchTerm>>(SearchTerm, GetFileName(), GetSubDirectory());
         }
