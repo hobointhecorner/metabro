@@ -12,7 +12,7 @@
 RootModule = '.\MB.Emby.dll'
 
 # Version number of this module.
-ModuleVersion = '2.0'
+ModuleVersion = '2.5.0.0'
 
 # ID used to uniquely identify this module
 GUID = '12d0f50b-ff88-4291-9515-7fa238c1671f'
