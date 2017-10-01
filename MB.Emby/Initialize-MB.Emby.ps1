@@ -16,7 +16,7 @@ function Initialize-EmbyPref
 	[MB.Pref.EmbyPref]::New($readComputerName, $readPortNumber, $readApiKey).WritePref()
 }
 
-if (!(Get-EmbyPref) -or $Force)
+if (!(Test-Path $env:APPDATA "Metabro\Emby\settings.json") -or $Force)
 {
 	Initialize-EmbyPref
 }
