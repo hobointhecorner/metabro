@@ -125,29 +125,4 @@ namespace MB.Emby
             PrefObject.WritePref();
         }
     }
-
-    //[Cmdlet(VerbsData.Initialize, nameof(EmbyPref))]
-    //public class InitializeEmbyPrefCmdlet : PSCmdlet
-    //{
-    //    protected override void ProcessRecord()
-    //    {
-    //        base.ProcessRecord();
-    //        string readComputerName = "Read-Host 'Enter the computer name for your Emby server'";
-    //        string readPortNumber = "Read-Host 'Enter the port your emby server uses to connect'";
-    //        string readApiKey = "Read-Host 'Enter your API key'";
-
-    //        EmbyPref pref = new EmbyPref();
-
-    //        Collection<PSObject> computerNameResult = this.InvokeCommand.InvokeScript(readComputerName);
-    //        pref.ComputerName = computerNameResult[0].ToString();
-
-    //        Collection<PSObject> portResult = this.InvokeCommand.InvokeScript(readPortNumber);
-    //        pref.Port = portResult[0].ToString();
-
-    //        Collection<PSObject> apiResult = this.InvokeCommand.InvokeScript(readApiKey);
-    //        pref.ApiKey = apiResult[0].ToString();
-
-    //        pref.WritePref();
-    //    }
-    //}
 }
