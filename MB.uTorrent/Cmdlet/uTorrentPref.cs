@@ -24,13 +24,12 @@ namespace MB.uTorrent
             PrivateTrackers = new List<string>();
         }
 
-        public TorrentPref(string ComputerName, string Port, string Username, SecureString Password)
+        public TorrentPref(string ComputerName, string Port, string Username, string Password)
         {
             this.ComputerName = ComputerName;
             this.Port = Port;
             this.Username = Username;
-
-            this.Password = new System.Net.NetworkCredential(string.Empty, Password).Password;
+            this.Password = Password;
 
             PrivateTrackers = new List<string>();
         }
@@ -174,7 +173,7 @@ namespace MB.uTorrent
                 Host.UI.Write("Enter your password: ");
                 SecureString Password = Host.UI.ReadLineAsSecureString();
 
-                new TorrentPref(ComputerName, Port, Username, Password).WritePref();
+                //new TorrentPref(ComputerName, Port, Username, Password).WritePref();
             }
         }
     }

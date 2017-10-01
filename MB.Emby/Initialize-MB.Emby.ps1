@@ -4,6 +4,9 @@
 
 function Initialize-EmbyPref
 {
+	param(
+		[string]$Path
+	)
 	$readComputerName = Read-Host 'Enter the computer name for your Emby server'
     $readPortNumber = Read-Host 'Enter the port your emby server uses to connect [8096]'
     $readApiKey = Read-Host 'Enter your API key'
@@ -13,10 +16,17 @@ function Initialize-EmbyPref
 		$readPortNumber = '8096'
 	}
 
-	[MB.Pref.EmbyPref]::New($readComputerName, $readPortNumber, $readApiKey).WritePref()
+	@{
+		ComputerName = $readComputerName
+		Port = $readPortNumber
+		ApiKey = $readApiKey
+	} | 
+		ConvertTo-Json |
+		Out-File $Path -Force
 }
 
-if (!(Test-Path (Join-Path $env:APPDATA "Metabro\Emby\settings.json")) -or $Force)
+$prefPath = Join-Path $env:APPDATA "Metabro\Emby\Settings.json"
+if (!(Test-Path $prefPath) -or $Force)
 {
-	Initialize-EmbyPref
+	Initialize-EmbyPref $prefPath
 }
