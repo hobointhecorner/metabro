@@ -21,9 +21,17 @@ namespace MB.TextParsing.QualityRules
 
         public static List<QualityRule> GetQualityRule(String Type)
         {
-            return (from rule in QualityRule.GetQualityRule(DownloadQualityRule.FileName, DownloadQualityRule.SubDirectory)
-                    where rule.Type.ToLower() == Type.ToLower()
-                    select rule).ToList<QualityRule>();
+            List<QualityRule> qualityRule = GetQualityRule();
+            if (qualityRule != null)
+            {
+                return (from rule in QualityRule.GetQualityRule(DownloadQualityRule.FileName, DownloadQualityRule.SubDirectory)
+                        where rule.Type.ToLower() == Type.ToLower()
+                        select rule).ToList<QualityRule>();
+            }
+            else
+            {
+                return new List<QualityRule>();
+            }
         }
 
         public static int GetDownloadQuality(string Name, string Provider = null, string SeriesName = null, int? SeasonNumber = null, int? EpisodeNumber = null, DateTime? AirDate = null)

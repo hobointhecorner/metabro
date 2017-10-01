@@ -20,9 +20,17 @@ namespace MB.TextParsing.QualityRules
 
         public static List<QualityRule> GetQualityRule(String Type)
         {
-            return (from rule in QualityRule.GetQualityRule(FileQualityRule.FileName, FileQualityRule.SubDirectory)
-                    where rule.Type.ToLower() == Type.ToLower()
-                    select rule).ToList<QualityRule>();
+            List<QualityRule> qualityRule = QualityRule.GetQualityRule(FileQualityRule.FileName, FileQualityRule.SubDirectory);
+            if (qualityRule != null)
+            {
+                return (from rule in qualityRule
+                        where rule.Type.ToLower() == Type.ToLower()
+                        select rule).ToList<QualityRule>();
+            }
+            else
+            {
+                return new List<QualityRule>();
+            }
         }
 
         public static int GetFileQuality(string FileName, List<QualityRule> RuleList)

@@ -107,7 +107,7 @@ namespace MB.uTorrent
         }
     }
 
-    [Cmdlet(VerbsCommon.Add, "uTorrentPrivateTracker")]
+    [Cmdlet(VerbsCommon.Add, "TorrentPrivateTracker")]
     public class AdduTorrentPrivateTrackerCmdlet : Cmdlet
     {
         [Parameter(ValueFromPipeline = true)]
@@ -133,7 +133,7 @@ namespace MB.uTorrent
         }
     }
 
-    [Cmdlet(VerbsCommon.Remove, "uTorrentPrivateTracker")]
+    [Cmdlet(VerbsCommon.Remove, "TorrentPrivateTracker")]
     public class RemoveuTorrentPrivateTrackerCmdlet : Cmdlet
     {
         [Parameter(ValueFromPipeline = true)]

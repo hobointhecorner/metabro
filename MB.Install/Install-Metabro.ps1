@@ -48,7 +48,7 @@ begin
             #Copy module
             if (!(Test-Path $modulePath) -or $Force)
             {
-                Write-Information "Copying module $($_.Name) to $Destination"
+                Write-Information "Copying module $moduleName to $Destination"
                 Copy-Item -LiteralPath $SourcePath -Destination $DestinationPath -Force:$Force -Recurse
                 $newLine = $true
             }
