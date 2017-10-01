@@ -64,7 +64,7 @@ namespace MB.TextParsing
         public static Dictionary<string, string> DateMatches = new Dictionary<string, string>()
         {
             { "xxxxxx", @"\d{6}" },
-            { "yyyy.mm.dd", @"\d{4}[^a-zA-Z0-9]\d{2}[^a-zA-Z0-9]\d{2}" },
+            { "yyyy.xx.xx", @"\d{4}[^a-zA-Z0-9]\d{2}[^a-zA-Z0-9]\d{2}" },
             { "xx.xx.yyyy", @"\d{2}[^a-zA-Z0-9]\d{2}[^a-zA-Z0-9]\d{4}" }
         };
 
@@ -208,12 +208,22 @@ namespace MB.TextParsing
                             }
                             break;
 
-                        case "yyyy.mm.dd":
+                        case "yyyy.xx.xx":
                             dateArr = new Regex(@"\D").Split(matchString);
 
                             y = Convert.ToInt32(dateArr[0]);
-                            m = Convert.ToInt32(dateArr[1]);
-                            d = Convert.ToInt32(dateArr[2]);
+
+                            if (Convert.ToInt32(dateArr[1]) > 12)
+                            {
+                                m = Convert.ToInt32(dateArr[2]);
+                                d = Convert.ToInt32(dateArr[1]);
+                            }
+                            else
+                            {
+                                m = Convert.ToInt32(dateArr[1]);
+                                d = Convert.ToInt32(dateArr[2]);
+                            }
+
                             break;
 
                         case "xx.xx.yyyy":

@@ -240,7 +240,7 @@ function Complete-Torrent
         #Find torrent
 		try
 		{
-			$torrent = Get-Torrent -Hash $Hash
+			$torrent = Get-Torrent -Hash $Hash -Dispose:$false
 		
 			Write-Debug 'Got torrent'
 

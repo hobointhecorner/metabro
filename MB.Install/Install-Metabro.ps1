@@ -71,7 +71,7 @@ begin
             }
 
             #Run init script, if one exists
-            if ($initScript = gci $modulePath -Filter "Initialize-*.ps1" | select -First 1)
+            if ($initScript = gci $modulePath -Filter "Initialize-$moduleName.ps1" | select -First 1)
             {
                 . $initScript.FullName -Force:$InitializePrefs
             }
