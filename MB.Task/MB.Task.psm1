@@ -259,7 +259,7 @@ function Complete-Torrent
 
 			Write-Debug 'Got torrent path type'
 
-			if ($torrent.Label -and ((Get-uTorrentPref).PrivateTrackers -contains $torrent.Label)) { $privateProvider = $true }
+			if ($torrent.Label -and ((Get-TorrentPref).PrivateTrackers -contains $torrent.Label)) { $privateProvider = $true }
 			else { $privateProvider = $false }
         
 			Write-Debug 'Got provider type'
@@ -408,7 +408,7 @@ function Clear-Torrent
     )
     
     if ($KeepDays -gt 0) { $KeepDays = $KeepDays * -1 }
-    $privateTrackers = (Get-uTorrentPref).PrivateTrackers
+    $privateTrackers = (Get-TorrentPref).PrivateTrackers
     $removeList = @()
 
     $completedTorrent = Get-Torrent | where { $_.Status -match ([regex]::Escape("100.0 %")) }

@@ -1,5 +1,4 @@
 ﻿using MB.Emby.Api;
-using MB.Pref;
 using System;
 using System.Collections.Generic;
 using System.Linq;

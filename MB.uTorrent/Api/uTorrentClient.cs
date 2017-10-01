@@ -1,5 +1,4 @@
-﻿using MB.Pref;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,12 +9,12 @@ namespace MB.uTorrent.Api
 {
     public class uTorrentClient
     {
-        public uTorrentPref Preferences { get; set; }
+        public TorrentPref Preferences { get; set; }
         UTorrentAPI.UTorrentClient ApiClient;
 
         public uTorrentClient()
         {
-            Preferences = uTorrentPref.GetPref();
+            Preferences = TorrentPref.GetPref();
             ApiClient = new UTorrentClient((new Uri(Preferences.Url)), Preferences.Username, Preferences.Password);
         }
 
