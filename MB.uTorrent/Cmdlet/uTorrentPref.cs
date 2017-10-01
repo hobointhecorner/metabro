@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Management.Automation;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,17 @@ namespace MB.uTorrent
 
         public TorrentPref()
         {
+            PrivateTrackers = new List<string>();
+        }
+
+        public TorrentPref(string ComputerName, string Port, string Username, SecureString Password)
+        {
+            this.ComputerName = ComputerName;
+            this.Port = Port;
+            this.Username = Username;
+
+            this.Password = new System.Net.NetworkCredential(string.Empty, Password).Password;
+
             PrivateTrackers = new List<string>();
         }
 
@@ -146,26 +158,23 @@ namespace MB.uTorrent
             protected override void ProcessRecord()
             {
                 base.ProcessRecord();
-                string readComputerName = "Read-Host 'Enter the computer name for your uTorrent server'";
-                string readPortNumber = "Read-Host 'Enter the port your uTorrent server uses to connect'";
-                string readUser = "Read-Host 'Enter your username'";
-                string readPass = "Read-Host 'Enter your password'";
 
-                TorrentPref pref = new TorrentPref();
+                Host.UI.Write("Enter the computer name for your uTorrent server: ");
+                string ComputerName = Host.UI.ReadLine();
 
-                Collection<PSObject> computerNameResult = this.InvokeCommand.InvokeScript(readComputerName);
-                pref.ComputerName = computerNameResult[0].ToString();
+                Host.UI.Write("Enter the port your uTorrent server uses to connect [8080]: ");
+                string Port = Host.UI.ReadLine();
 
-                Collection<PSObject> portResult = this.InvokeCommand.InvokeScript(readPortNumber);
-                pref.Port = portResult[0].ToString();
+                if (Port == string.Empty)
+                    Port = "8080";
 
-                Collection<PSObject> userResult = this.InvokeCommand.InvokeScript(readUser);
-                pref.Username = userResult[0].ToString();
+                Host.UI.Write("Enter your username: ");
+                string Username = Host.UI.ReadLine();
 
-                Collection<PSObject> passResult = this.InvokeCommand.InvokeScript(readPass);
-                pref.Password = passResult[0].ToString();
+                Host.UI.Write("Enter your password: ");
+                SecureString Password = Host.UI.ReadLineAsSecureString();
 
-                pref.WritePref();
+                new TorrentPref(ComputerName, Port, Username, Password).WritePref();
             }
         }
     }
