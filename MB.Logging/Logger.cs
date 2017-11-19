@@ -11,6 +11,7 @@ namespace MB.Logging
     public enum LogType
     {
         Information,
+        Verbose,
         Warning,
         Error
     }
@@ -92,6 +93,10 @@ namespace MB.Logging
 
                 case LogType.Information:
                     WriteInformation(new InformationRecord(Output, "Metabro"));
+                    break;
+
+                case LogType.Verbose:
+                    WriteVerbose(Output);
                     break;
             }
 
