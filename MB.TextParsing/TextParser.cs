@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -279,6 +280,69 @@ namespace MB.TextParsing
             }
 
             return seriesName;
+        }
+    }
+
+    [Cmdlet(VerbsCommon.Get, "SeasonEpisodeNumber")]
+    [OutputType(typeof(SeasonEpisode))]
+    public class GetSeasonEpisodeNumberCmdlet : PSCmdlet
+    {
+        [Parameter(ValueFromPipeline = true, Mandatory = true, Position = 0)]
+        public string InputString { get; set; }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            WriteObject(TextParser.GetSeasonEpisodeNumber(InputString));
+        }
+
+        protected override void EndProcessing()
+        {
+            base.EndProcessing();
+        }
+    }
+
+    [Cmdlet(VerbsCommon.Get, "AirDate")]
+    [OutputType(typeof(DateTime?))]
+    public class GetAirDateCmdlet : PSCmdlet
+    {
+        [Parameter(ValueFromPipeline = true, Mandatory = true, Position = 0)]
+        public string InputString { get; set; }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            WriteObject(TextParser.GetAirDate(InputString));
+        }
+
+        protected override void EndProcessing()
+        {
+            base.EndProcessing();
+        }
+    }
+
+    [Cmdlet(VerbsCommon.Get, "SeriesName")]
+    [OutputType(typeof(string))]
+    public class GetSeriesNameCmdlet : PSCmdlet
+    {
+        [Parameter(ValueFromPipeline = true, Mandatory = true, Position = 0)]
+        public string InputString { get; set; }
+
+        [Parameter(Mandatory = true, Position = 1)]
+        public List<string> SeriesList { get; set; }
+
+        [Parameter(Position = 2)]
+        public Dictionary<string,string> SearchTerm { get; set; }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            WriteObject(TextParser.GetSeriesName(InputString, SeriesList, SearchTerm));
+        }
+
+        protected override void EndProcessing()
+        {
+            base.EndProcessing();
         }
     }
 }

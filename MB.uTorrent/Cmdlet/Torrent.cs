@@ -83,7 +83,7 @@ namespace MB.uTorrent
 
         public override string ToString()
         {
-            return this.Name;
+            return this.Hash;
         }
 
         void GetFile(UTorrentAPI.Torrent ApiObject)
