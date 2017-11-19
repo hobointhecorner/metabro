@@ -150,7 +150,7 @@ namespace MB.uTorrent
 
             if (Name != null && outputList != null)
             {
-                var selectList = from TorrentHistory history in TorrentHistory
+                var selectList = from TorrentHistory history in outputList
                                  where TextParser.TestSimpleMatch(Name, history.Name)
                                  select history;
 
@@ -159,7 +159,7 @@ namespace MB.uTorrent
 
             if (Provider != null && outputList != null)
             {
-                var selectList = from TorrentHistory history in TorrentHistory
+                var selectList = from TorrentHistory history in outputList
                                  where TextParser.TestSimpleMatch(Provider, history.Provider)
                                  select history;
 
@@ -168,7 +168,7 @@ namespace MB.uTorrent
 
             if (SeriesName != null && outputList != null)
             {
-                var selectList = from TorrentHistory history in TorrentHistory
+                var selectList = from TorrentHistory history in outputList
                                  where TextParser.TestSimpleMatch(SeriesName, history.SeriesName)
                                  select history;
 
@@ -177,7 +177,7 @@ namespace MB.uTorrent
 
             if (SeasonNumber != null && outputList != null)
             {
-                var selectList = from TorrentHistory history in TorrentHistory
+                var selectList = from TorrentHistory history in outputList
                                  where history.SeasonNumber == SeasonNumber
                                  select history;
 
@@ -186,7 +186,7 @@ namespace MB.uTorrent
 
             if (EpisodeNumber != null && outputList != null)
             {
-                var selectList = from TorrentHistory history in TorrentHistory
+                var selectList = from TorrentHistory history in outputList
                                  where history.EpisodeNumber == EpisodeNumber
                                  select history;
 
@@ -195,7 +195,7 @@ namespace MB.uTorrent
 
             if (AirDate != null && outputList != null)
             {
-                var selectList = from TorrentHistory history in TorrentHistory
+                var selectList = from TorrentHistory history in outputList
                                  where history.AirDate == AirDate
                                  select history;
 

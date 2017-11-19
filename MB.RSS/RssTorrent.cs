@@ -28,6 +28,11 @@ namespace MB.RSS
 
         }
 
+        public override string ToString()
+        {
+            return this.Url;
+        }
+
         public RssTorrent(XmlNode XmlInfo, RssTorrentProvider Provider)
         {
             ParseRss(XmlInfo, Provider);
