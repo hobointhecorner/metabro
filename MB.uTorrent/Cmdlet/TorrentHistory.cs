@@ -27,7 +27,7 @@ namespace MB.uTorrent
             this.Guid = Guid.NewGuid();
         }
 
-        public TorrentHistory(string Name, string Provider, string SeriesName, int? SeasonNumber, int? EpisodeNubmer, DateTime? AirDate, DateTime? Date)
+        public TorrentHistory(string Name, string Provider, string SeriesName, int? SeasonNumber, int? EpisodeNumber, DateTime? AirDate, DateTime? Date)
         {
             this.Name = Name;
             this.Provider = Provider;
