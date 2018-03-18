@@ -39,49 +39,57 @@ function Get-MissingEpisodeTorrent
 
     process
     {      
-        foreach ($e in $MissingEpisodes)
-        {
-            $logMessage = "BEGIN: $($e.SeriesName) S$($E.SeasonNumber)E$($E.EpisodeNumber)"           
-            write-verbose $logMessage
-            $TorrentList = $RssTorrents
+		if ($SeriesDownloadList)
+		{
+			foreach ($e in $MissingEpisodes)
+			{
+				$logMessage = "BEGIN: $($e.SeriesName) S$($E.SeasonNumber)E$($E.EpisodeNumber)"           
+				write-verbose $logMessage
+				$TorrentList = $RssTorrents
 
-            if (($episodeTorrent = Find-RSSTorrent -Torrent $TorrentList -SeriesName $e.SeriesName -AirDate $e.AirDate) `
-                    -or ($episodeTorrent = Find-RSSTorrent -Torrent $TorrentList -SeriesName $e.SeriesName -SeasonNumber $e.SeasonNumber -EpisodeNumber $e.EpisodeNumber)
-            )
-            {
-                $torrent = $episodeTorrent | sort Quality -Descending | select -First 1
-            }
-            else { $torrent = $false }
+				if (($episodeTorrent = Find-RSSTorrent -Torrent $TorrentList -SeriesName $e.SeriesName -AirDate $e.AirDate) `
+						-or ($episodeTorrent = Find-RSSTorrent -Torrent $TorrentList -SeriesName $e.SeriesName -SeasonNumber $e.SeasonNumber -EpisodeNumber $e.EpisodeNumber)
+				)
+				{
+					$torrent = $episodeTorrent | sort Quality -Descending | select -First 1
+				}
+				else { $torrent = $false }
 
-            if ($torrent)
-            {
-                if (!($DownloadQueue | Find-RSSTorrent -SeriesName $torrent.SeriesName -SeasonNumber $torrent.SeasonNumber -EpisodeNumber $torrent.EpisodeNumber -AirDate $torrent.Airdate)) { $InQueue = $false }
-                else { $InQueue = $true }
+				if ($torrent)
+				{
+					if (!($DownloadQueue | Find-RSSTorrent -SeriesName $torrent.SeriesName -SeasonNumber $torrent.SeasonNumber -EpisodeNumber $torrent.EpisodeNumber -AirDate $torrent.Airdate)) { $InQueue = $false }
+					else { $InQueue = $true }
 
-                if (!$InQueue)
-                {
-                    if (!(Find-TorrentHistory -Name $torrent.Name -Provider $torrent.Provider -SeriesName $torrent.SeriesName -SeasonNumber $torrent.SeasonNumber -EpisodeNumber $torrent.EpisodeNumber -AirDate $torrent.AirDate))
-                    {
-                        $logMessage = "SUCCSSS $($Torrent.Name) added to queue!"
-                        $actionLog += "`n$logMessage"
-                        Write-Information $logMessage
-                        $DownloadQueue += $torrent
-                    }
-                    else
-                    {
-                        $logMessage = "DECLINE $($torrent.Name): Already downloaded"
-                        $actionLog += "`n$logMessage"
-                        Write-Information $logMessage
-                    }
-                }
-            }
-            else
-            {
-                $logMessage = "FAIL: No torrents found for $($e.SeriesName) S$($E.SeasonNumber)E$($E.EpisodeNumber)"
-                $actionLog += "`n$logMessage"
-                Write-Information $logMessage
-            }
-        }
+					if (!$InQueue)
+					{
+						if (!(Find-TorrentHistory -Name $torrent.Name -Provider $torrent.Provider -SeriesName $torrent.SeriesName -SeasonNumber $torrent.SeasonNumber -EpisodeNumber $torrent.EpisodeNumber -AirDate $torrent.AirDate))
+						{
+							$logMessage = "SUCCSSS $($Torrent.Name) added to queue!"
+							$actionLog += "`n$logMessage"
+							Write-Information $logMessage
+							$DownloadQueue += $torrent
+						}
+						else
+						{
+							$logMessage = "DECLINE $($torrent.Name): Already downloaded"
+							$actionLog += "`n$logMessage"
+							Write-Information $logMessage
+						}
+					}
+				}
+				else
+				{
+					$logMessage = "FAIL: No torrents found for $($e.SeriesName) S$($E.SeasonNumber)E$($E.EpisodeNumber)"
+					$actionLog += "`n$logMessage"
+					Write-Information $logMessage
+				}
+			}
+		}
+		else
+		{
+				Write-Warning "No series found in Metabro collection"
+			}
+		}
     }
 
     end
