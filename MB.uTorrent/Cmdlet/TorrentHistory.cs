@@ -154,7 +154,7 @@ namespace MB.uTorrent
                                  where TextParser.TestSimpleMatch(Name, history.Name)
                                  select history;
 
-                outputList = selectList.ToList<TorrentHistory>();
+                if (selectList != null) { outputList = selectList.ToList<TorrentHistory>(); }
             }
 
             if (Provider != null && outputList != null)
@@ -163,7 +163,7 @@ namespace MB.uTorrent
                                  where TextParser.TestSimpleMatch(Provider, history.Provider)
                                  select history;
 
-                outputList = selectList.ToList<TorrentHistory>();
+                if (selectList != null) { outputList = selectList.ToList<TorrentHistory>(); }
             }
 
             if (SeriesName != null && outputList != null)
@@ -172,7 +172,7 @@ namespace MB.uTorrent
                                  where TextParser.TestSimpleMatch(SeriesName, history.SeriesName)
                                  select history;
 
-                outputList = selectList.ToList<TorrentHistory>();
+                if (selectList != null) { outputList = selectList.ToList<TorrentHistory>(); }
             }
 
             if (SeasonNumber != null && outputList != null)
@@ -181,7 +181,7 @@ namespace MB.uTorrent
                                  where history.SeasonNumber == SeasonNumber
                                  select history;
 
-                outputList = selectList.ToList<TorrentHistory>();
+                if (selectList != null) { outputList = selectList.ToList<TorrentHistory>(); }
             }
 
             if (EpisodeNumber != null && outputList != null)
@@ -190,7 +190,7 @@ namespace MB.uTorrent
                                  where history.EpisodeNumber == EpisodeNumber
                                  select history;
 
-                outputList = selectList.ToList<TorrentHistory>();
+                if (selectList != null) { outputList = selectList.ToList<TorrentHistory>(); }
             }
 
             if (AirDate != null && outputList != null)
@@ -199,7 +199,7 @@ namespace MB.uTorrent
                                  where history.AirDate == AirDate
                                  select history;
 
-                outputList = selectList.ToList<TorrentHistory>();
+                if (selectList != null) { outputList = selectList.ToList<TorrentHistory>(); }
             }
 
             if (outputList != null)
