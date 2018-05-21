@@ -88,7 +88,6 @@ function Get-MissingEpisodeTorrent
 		else
 		{
 				Write-Warning "No series found in Metabro collection"
-			}
 		}
     }
 
