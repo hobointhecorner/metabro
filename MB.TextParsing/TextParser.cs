@@ -65,8 +65,8 @@ namespace MB.TextParsing
         public static Dictionary<string, string> DateMatches = new Dictionary<string, string>()
         {
             { "xxxxxx", @"\d{6}" },
-            { "yyyy.xx.xx", @"\d{4}[^a-zA-Z0-9]\d{2}[^a-zA-Z0-9]\d{2}" },
-            { "xx.xx.yyyy", @"\d{2}[^a-zA-Z0-9]\d{2}[^a-zA-Z0-9]\d{4}" }
+            { "yyyy.xx.xx", @"\d{4}[^a-zA-Z0-9 ]\d{2}[^a-zA-Z0-9 ]\d{2}" },
+            { "xx.xx.yyyy", @"\d{2}[^a-zA-Z0-9 ]\d{2}[^a-zA-Z0-9 ]\d{4}" }
         };
 
         public static bool TestSimpleMatch(string Pattern, string Text)
