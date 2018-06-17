@@ -411,10 +411,12 @@ function Clear-Torrent
     param(
 		[switch]$Remove = $true,
         [int]$KeepDays = 7,
-		[int]$PrivateKeepDays = 3
+		[int]$PrivateKeepDays = 14,
+		[int]$MinPrivateTorrents = 10
     )
     
     if ($KeepDays -gt 0) { $KeepDays = $KeepDays * -1 }
+	if ($PrivateKeepDays -gt 0) { $PrivateKeepDays = $PrivateKeepDays * -1 }
     $privateTrackers = (Get-TorrentPref).PrivateTrackers
     $removeList = @()
 
@@ -422,12 +424,12 @@ function Clear-Torrent
     $privateTorrent = $completedTorrent | where { $_.Label -in $privateTrackers }
     $publicTorrent = $completedTorrent | where { $_.Label -notin $privateTrackers }
 
-    $removePrivateTorrentCount = ($privateTorrent | measure).Count - 10
+    $removePrivateTorrentCount = ($privateTorrent | measure).Count - $MinPrivateTorrents
 
     if ($removePrivateTorrentCount -gt 0)
     {
         $privateTorrent |
-			where { $_.DateAdded -ge (Get-Date).AddDays($PrivateKeepDays) } |
+			where { $_.DateAdded -le (Get-Date).AddDays($PrivateKeepDays) } |
             sort DateAdded -Descending |
             select -Last $removePrivateTorrentCount |
             foreach { 
@@ -437,7 +439,7 @@ function Clear-Torrent
     }
         
      $publicTorrent |
-        where { $_.DateAdded -ge (Get-Date).AddDays($KeepDays) } |
+        where { $_.DateAdded -le (Get-Date).AddDays($KeepDays) } |
         foreach {
 			if ($Remove) { $removeList += $_ }
 			Write-Output $_ 
