@@ -195,17 +195,20 @@ namespace MB.TextParsing
                             val2 = Convert.ToInt32(matchString.Substring(2, 2));
                             val3 = Convert.ToInt32(matchString.Substring(4, 2));
 
-                            if (val1 > 12)
+                            if ((val1 > 0) && (val2 > 0) && (val3 > 0))
                             {
-                                y = Convert.ToInt32("20" + val1.ToString());
-                                m = val2;
-                                d = val3;
-                            }
-                            else
-                            {
-                                y = Convert.ToInt32("20" + val3.ToString());
-                                m = val1;
-                                d = val2;
+                                if ((val1 > 12) && (val2 < 13))
+                                {
+                                    y = Convert.ToInt32("20" + val1.ToString());
+                                    m = val2;
+                                    d = val3;
+                                }
+                                else if ((val1 < 12) && (val2 < 32))
+                                {
+                                    y = Convert.ToInt32("20" + val3.ToString());
+                                    m = val1;
+                                    d = val2;
+                                }
                             }
                             break;
 
@@ -247,7 +250,9 @@ namespace MB.TextParsing
                             break;
                     }
 
-                    output = new DateTime(y, m, d);
+                    if ((y != 0) && (m != 0) && (d != 0))
+                        output = new DateTime(y, m, d);
+
                     break;
                 }
             }

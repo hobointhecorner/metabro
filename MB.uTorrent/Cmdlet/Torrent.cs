@@ -103,15 +103,17 @@ namespace MB.uTorrent
             List<string> output = new List<string>();
             if (ApiObject.Files != null)
             {
-                List<QualityRule> qualityRules = FileQualityRule.GetQualityRule("Extension");
+                List<QualityRule> qualityRules = FileQualityRule.GetQualityRule();
 
                 foreach (var file in ApiObject.Files)
+                {
+                    int fileQuality = 0;
                     foreach (var rule in qualityRules)
-                        if (QualityRule.TestQualityRule(rule, file.Path) > 0)
-                        {
+                        fileQuality += QualityRule.TestQualityRule(rule, file.Path);
+
+                        if (fileQuality > 0)
                             output.Add(string.Format("{0}\\{1}", Path, file.Path));
-                            break;
-                        }
+                }
             }
 
             VideoFile = output;
@@ -135,17 +137,15 @@ namespace MB.uTorrent
 
         public static List<Torrent> GetTorrent(string Hash, uTorrentClient ApiClient = null)
         {
-            List<Torrent> torrentList = GetTorrent(ApiClient);
+            if (ApiClient == null)
+                ApiClient = new uTorrentClient();
+            
             List<Torrent> output = new List<Torrent>();
+            UTorrentAPI.Torrent torrent = ApiClient.GetTorrent(Hash);
 
-            if (torrentList != null)
+            if (torrent != null)
             {
-                var outputList = from Torrent t in torrentList
-                                 where t.Hash == Hash
-                                 select t;
-
-                if (outputList != null)
-                    output.Add(outputList.FirstOrDefault());
+                output.Add(new Torrent(torrent));
             }
 
             return output;
