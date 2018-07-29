@@ -18,7 +18,8 @@
 x64/
 x86/
 bld/
-[Bb]in/
+[Bb]in/debug
+[Bb]in/release
 [Oo]bj/
 [Ll]og/
 

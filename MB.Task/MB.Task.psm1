@@ -451,21 +451,32 @@ function Clear-Torrent
 function Clear-UnsortedMedia
 {
     param(
+		[int]$KeepDays = 14,
         [switch]$Remove,
         [string]$Path = '\\file01\Videos\To Be Sorted'
     )
 
+	begin
+	{
+		if ($KeepDays -gt 0) { $KeepDays = -$KeepDays }
+	}
+
     process
     {
         $torrentFileList = Get-Torrent | select -ExpandProperty path
-        $fsFileList = gci $Path | select -ExpandProperty fullname
+        $fsFileList = gci $Path | 
+						where { $_.CreationTime -lt (Get-Date).AddDays($KeepDays) } |
+						select -ExpandProperty fullname
 
-        $removeList = Compare-Object $fsFileList $torrentFileList |
-                        where { $_.SideIndicator -eq '<=' } |
-                        select -ExpandProperty inputobject 
+		if ($fsFileList)
+		{
+			$removeList = Compare-Object $fsFileList $torrentFileList |
+							where { $_.SideIndicator -eq '<=' } |
+							select -ExpandProperty inputobject 
             
-        $removeList
-        if ($Remove) { $removeList | foreach { Remove-Item $_ -Force } }
+			$removeList
+			if ($Remove) { $removeList | foreach { Remove-Item $_ -Force } }
+		}
     }
 }
 

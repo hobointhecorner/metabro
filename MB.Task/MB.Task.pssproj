@@ -34,6 +34,9 @@ copy-item -literalpath C:\Users\codyl\source\TFS\Metabro\Metabro\MB.Task\MB.Task
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'GitHub' ">
+    <OutputPath>bin\GitHub\</OutputPath>
+  </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
     <Compile Include="MB.Task.psd1" />

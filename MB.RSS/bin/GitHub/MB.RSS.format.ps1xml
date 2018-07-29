@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+  <ViewDefinitions>
+
+    <View>
+      <Name>MB.RSS.RssTorrent</Name>
+      <ViewSelectedBy>
+        <TypeName>MB.RSS.RssTorrent</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+          </TableColumnHeader>
+          
+          <TableColumnHeader>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>SeriesName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>SeasonNumber</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>EpisodeNumber</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AirDate</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Quality</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+  </ViewDefinitions>
+</Configuration>

@@ -31,6 +31,9 @@ gci $copySource -File |  where { $_.FullName -notmatch 'pssproj' } | foreach { c
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'GitHub' ">
+    <OutputPath>bin\GitHub\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="7za.dll" />
     <Content Include="7za.exe" />
