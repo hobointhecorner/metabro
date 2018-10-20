@@ -30,7 +30,9 @@ namespace MB.Emby
             this.IsHD = ApiObject.IsHD;
 
             if (ApiObject.PremiereDate != null)
-                this.AirDate = DateTime.Parse(ApiObject.PremiereDate);
+            {
+                this.AirDate = DateTime.Parse(ApiObject.PremiereDate).Date.Add(new TimeSpan(0, 0, 0));
+            }
         }
 
         public EmbyEpisode(Api.EmbyEpisodeDetail ApiObject)
