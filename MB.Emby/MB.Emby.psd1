@@ -21,13 +21,13 @@ GUID = '12d0f50b-ff88-4291-9515-7fa238c1671f'
 Author = 'Cody Lape'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'Hobomedia'
 
 # Copyright statement for this module
 Copyright = '(c) 2017 Cody Lape. All rights reserved.'
 
 # Description of the functionality provided by this module
-# Description = ''
+ Description = 'Allows for management and automation of Emby media servers'
 
 # Minimum version of the Windows PowerShell engine required by this module
 # PowerShellVersion = ''

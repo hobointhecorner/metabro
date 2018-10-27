@@ -27,7 +27,7 @@ CompanyName = 'Unknown'
 Copyright = '(c) 2017 Cody Lape. All rights reserved.'
 
 # Description of the functionality provided by this module
-# Description = ''
+ Description = 'RSS parsing for Metabro'
 
 # Minimum version of the Windows PowerShell engine required by this module
 # PowerShellVersion = ''
