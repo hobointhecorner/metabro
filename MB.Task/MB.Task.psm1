@@ -239,7 +239,7 @@ function Complete-Torrent
         $oldInfoPref = $InformationPreference
         $InformationPreference = 'continue'
         [string[]]$deleteList = $null
-		$actionLog = Write-MBOutput "Fetching torrent $hash`n" -PassThru
+		$actionLog = Write-MBOutput "Fetching torrent $hash" -PassThru
     }
 
     process
@@ -251,7 +251,7 @@ function Complete-Torrent
 		
 			Write-Debug 'Got torrent'
 
-			if (Test-Path $torrent.path)
+			if (Test-Path -LiteralPath $torrent.path)
 			{
 				switch ((Get-Item $torrent.path).GetType().FullName)
 				{
@@ -276,8 +276,6 @@ function Complete-Torrent
 			Write-MBError $_ -WriteEventLog -EventMessage 'Error fetching torrent:' -EventSource $logSource
 		}
 		
-        Write-Debug butts
-
 		if ($torrent)
 		{
 			#Stop torrent if not private
@@ -285,11 +283,11 @@ function Complete-Torrent
 			{
 				if ($privateProvider)
 				{
-					$actionLog += Write-MBOutput "Not stopping $($torrent.Name) because it is a private provider`n" -OutputType Warning -PassThru
+					$actionLog += Write-MBOutput "Not stopping $($torrent.Name) because it is a private provider" -OutputType Warning -PassThru
 				}
 				else
 				{
-					$actionLog += Write-MBOutput "Stopping $($torrent.Name)`n" -PassThru
+					$actionLog += Write-MBOutput "Stopping $($torrent.Name)" -PassThru
 					Stop-Torrent -Torrent $Hash
 					$deleteList += $torrent.Path
 				}
@@ -340,7 +338,7 @@ function Complete-Torrent
 					}
 					else
 					{
-						$actionLog += Write-MBOutput "No files found to copy`n" -OutputType Warning -PassThru
+						$actionLog += Write-MBOutput "No files found to copy" -OutputType Warning -PassThru
 					}
 				}
 			}
