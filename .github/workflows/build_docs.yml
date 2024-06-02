@@ -1,0 +1,73 @@
+name: Generate documentation
+
+on:
+  workflow_call:
+    inputs:
+      release_type:        
+        default: Release
+        required: false
+        type: string
+
+      build_artifact_name:
+        default: build_artifact
+        required: false
+        type: string
+
+      artifacts_path:
+        default: ./artifacts
+        required: false
+        type: string
+
+      event_source:
+        required: true
+        type: string
+
+      event_ref:
+        required: true
+        type: string
+
+    outputs:
+      artifact_name:
+        value: ${{ jobs.generate_docs.outputs.artifact_name }}
+        description: Name of the generated artifact
+
+env:
+  artifact_name: docs_artifact
+
+jobs:
+  generate_docs:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_name: ${{ steps.output.outputs.artifact_name }}      
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.build_artifact_name }}
+          path: ${{ inputs.artifacts_path }}
+
+      - name: Generate docs
+        run: |
+          pwsh -File "./scripts/Update-Help.ps1" -ArtifactDir "./artifacts" -ReleaseType "${{ inputs.release_type }}"
+
+      - name: Update docs
+        uses: EndBug/add-and-commit@v9
+        if: inputs.event_source != 'push' || inputs.event_ref == 'refs/heads/main' || startsWith(inputs.event_ref, 'refs/tags/v')
+        with:
+          add: "*/docs/*"
+          commit: --signoff
+          message: Update documentation
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.artifact_name }}
+          path: ${{ inputs.artifacts_path }}
+          retention-days: 1
+
+      - name: Set ouptuts
+        id: output
+        run: |
+          echo "artifact_name=${{ env.artifact_name }} >> $GITHUB_OUTPUT"

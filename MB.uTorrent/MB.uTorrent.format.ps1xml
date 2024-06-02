@@ -2,52 +2,136 @@
 <Configuration>
   <ViewDefinitions>
 
-    <View>
-      <Name>MB.uTorrent.Torrent</Name>
-      <ViewSelectedBy>
-        <TypeName>MB.uTorrent.Torrent</TypeName>
-      </ViewSelectedBy>
-      <TableControl>
-        <TableHeaders>
-          <TableColumnHeader>
-          </TableColumnHeader>
+	  <View>
+		  <Name>MB.uTorrent.Torrent</Name>
+		  <ViewSelectedBy>
+			  <TypeName>MB.uTorrent.Torrent</TypeName>
+		  </ViewSelectedBy>
+		  <TableControl>
+			  <TableHeaders>
+				  <TableColumnHeader>
+					  <Label>Name</Label>
+				  </TableColumnHeader>
 
-          <TableColumnHeader>
-          </TableColumnHeader>
+				  <TableColumnHeader>
+					  <Label>Status</Label>
+				  </TableColumnHeader>
 
-          <TableColumnHeader>
-          </TableColumnHeader>
+				  <TableColumnHeader>
+					  <Label>DateAdded</Label>
+				  </TableColumnHeader>
 
-          <TableColumnHeader>
-          </TableColumnHeader>
+				  <TableColumnHeader>
+					  <Label>DateCompleted</Label>
+				  </TableColumnHeader>
 
-          <TableColumnHeader>
-          </TableColumnHeader>
+				  <TableColumnHeader>
+					  <Label>Path</Label>
+				  </TableColumnHeader>
 
-        </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem>
-                <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Status</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>DateAdded</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>DateCompleted</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Path</PropertyName>
-              </TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
-      </TableControl>
-    </View>
+			  </TableHeaders>
+			  <TableRowEntries>
+				  <TableRowEntry>
+					  <TableColumnItems>
+						  <TableColumnItem>
+							  <PropertyName>Name</PropertyName>
+						  </TableColumnItem>
+						  
+						  <TableColumnItem>
+							  <ScriptBlock>$_.StatusText</ScriptBlock>
+						  </TableColumnItem>
+						  
+						  <TableColumnItem>
+							  <PropertyName>DateAdded</PropertyName>
+						  </TableColumnItem>
+						  
+						  <TableColumnItem>
+							  <PropertyName>DateCompleted</PropertyName>
+						  </TableColumnItem>
+						  
+						  <TableColumnItem>
+							  <PropertyName>Path</PropertyName>
+						  </TableColumnItem>
+						  
+					  </TableColumnItems>
+				  </TableRowEntry>
+			  </TableRowEntries>
+		  </TableControl>
+	  </View>
+
+	  <View>
+		  <Name>MB.uTorrent.TorrentInfo</Name>
+		  <ViewSelectedBy>
+			  <TypeName>MB.uTorrent.TorrentInfo</TypeName>
+		  </ViewSelectedBy>
+		  <TableControl>
+			  <TableHeaders>
+				  <TableColumnHeader>
+					  <Label>Title</Label>
+					  <Width>28</Width>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>SeasonNumber</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>EpisodeNumber</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>AirDate</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>OtherInfo</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Weight</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Provider</Label>
+				  </TableColumnHeader>
+
+			  </TableHeaders>
+			  <TableRowEntries>
+				  <TableRowEntry>
+					  <TableColumnItems>
+						  <TableColumnItem>
+							  <PropertyName>Title</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>SeasonNumber</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>EpisodeNumber</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>AirDate</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>OtherInfo</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Weight</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Provider</PropertyName>
+						  </TableColumnItem>
+						  
+					  </TableColumnItems>
+				  </TableRowEntry>
+			  </TableRowEntries>
+		  </TableControl>
+	  </View>
     
   </ViewDefinitions>
 </Configuration>

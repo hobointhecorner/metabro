@@ -1,137 +1,117 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MB.File
+namespace MB.File;
+
+public static class FileProvider
 {
-    public static class FileProvider
+    static string GetBasePath(string? subDirectory = null)
     {
-        static string GetBasePath(string Subdirectory = null)
+        string path = "metabro";
+        if (subDirectory != null) path = Path.Combine(path, subDirectory);
+
+        string userConfigDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); ;
+
+        return Path.Combine(userConfigDir, path);
+    }
+    static string GetFileParentPath(string path)
+    {
+        return Directory.GetParent(path)!.FullName;
+    }
+    public static string GetFilePath(string FileName, string? Subdirectory = null)
+    {
+        return Path.Combine(GetBasePath(Subdirectory), FileName);
+    }
+
+    static bool TestDirectory(string path)
+    {
+        if (Directory.Exists(path))
+            return true;
+        else
+            return false;
+    }
+    public static bool TestFile(string fileName, string? subDirectory = null)
+    {
+        string path = GetFilePath(fileName, subDirectory);
+        if (System.IO.File.Exists(@path))
+            return true;
+        else
+            return false;
+    }
+
+    static void CreateDirectory(string path)
+    {
+        Directory.CreateDirectory(path);
+    }
+    static void CreateFile(string path)
+    {
+        try
         {
-            string path;
+            string parentDirectory = GetFileParentPath(path);
+            if (!TestDirectory(parentDirectory))
+                CreateDirectory(parentDirectory);
 
-            if (Subdirectory != null)
-                path = string.Format("Metabro\\{0}", Subdirectory);
-            else
-                path = "Metabro";
-
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), path);
+            System.IO.File.Create(path).Close();
         }
-        static string GetFileParentPath (string Path)
+        catch (Exception e)
         {
-            return Directory.GetParent(@Path).FullName;
+            throw new Exception("Failed to create pref file, error message:" + e.Message);
         }
-        public static string GetFilePath(string FileName, string Subdirectory = null)
+    }
+
+    public static T GetFile<T>(string fileName, string? subDirectory = null) where T : new()
+    {
+        if (TestFile(fileName, subDirectory))
         {
-            return Path.Combine(GetBasePath(Subdirectory), FileName);
+            string path = GetFilePath(fileName, subDirectory);
+            using StreamReader file = System.IO.File.OpenText(path);
+
+            JsonSerializer serializer = new();
+            T outputObject = (T)serializer.Deserialize(file, typeof(T))!;
+
+            return outputObject!;
         }
-
-        static bool TestDirectory(string Path)
+        else
         {
-            if (Directory.Exists(Path))
-                return true;
-            else
-                return false;
+            return default!;
         }
-        static bool TestFile(string FileName, string SubDirectory = null)
+    }
+
+    public static string? GetFile(string fileName, string? subDirectory = null)
+    {
+        if (TestFile(fileName, subDirectory!))
         {
-            string path = GetFilePath(FileName, SubDirectory);
-            if (System.IO.File.Exists(@path))
-                return true;
-            else
-                return false;
+            string path = GetFilePath(fileName, subDirectory);
+            return System.IO.File.ReadAllText(path);
         }
-
-        static void CreateDirectory(string Path)
+        else
         {
-            Directory.CreateDirectory(@Path);
+            return null;
         }
-        static void CreateFile(string Path)
-        {
-            try
-            {
-                string parentDirectory = GetFileParentPath(Path);
-                if (!TestDirectory(parentDirectory))
-                    CreateDirectory(parentDirectory);
+    }
 
-                System.IO.File.Create(@Path).Close();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Failed to create pref file, error message:" + e.Message);
-            }
-        }        
+    public static void WriteFile<T>(T content, string fileName, string? subDirectory = null)
+    {
+        string path = GetFilePath(fileName, subDirectory);
+        string serializedJson = JsonConvert.SerializeObject(content, Formatting.Indented);
 
-        public static T GetFile<T>(string FileName, string Subdirectory = null) where T : new()
-        {
-            if (TestFile(FileName, Subdirectory))
-            {
-                string path = GetFilePath(FileName, Subdirectory);
-                using (StreamReader file = System.IO.File.OpenText(path))
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    T outputObject = (T)serializer.Deserialize(file, typeof(T));
-                    return outputObject;
-                }
-            }
-            else
-            {
-                return default(T);
-            }
-        }
+        if (!TestFile(fileName, subDirectory))
+            CreateFile(path);
 
-        public static string GetFile(string FileName, string Subdirectory = null)
-        {
-            if (TestFile(FileName, Subdirectory))
-            {
-                string path = GetFilePath(FileName, Subdirectory);
-                return System.IO.File.ReadAllText(path);
-            }
-            else
-            {
-                return null;
-            }
-        }
+        System.IO.File.WriteAllText(@path, serializedJson);
+    }
 
-        public static void WriteFile<T>(T Content, string FileName, string Subdirectory = null)
-        {
-            string path = GetFilePath(FileName, Subdirectory);
-            string serializedJson = JsonConvert.SerializeObject(Content, Formatting.Indented);
+    public static void WriteFile(string content, string fileName, string? subDirectory = null)
+    {
+        string path = GetFilePath(fileName, subDirectory);
+        if (!TestFile(fileName, subDirectory))
+            CreateFile(path);
+        System.IO.File.WriteAllText(@path, content);
+    }
 
-            if (!TestFile(FileName, Subdirectory))
-                CreateFile(path);
-
-            System.IO.File.WriteAllText(@path, serializedJson);
-        }
-
-        public static void WriteFile(string Content, string FileName, string Subdirectory = null)
-        {
-            string path = GetFilePath(FileName, Subdirectory);
-            if (!TestFile(FileName, Subdirectory))
-                CreateFile(path);
-            System.IO.File.WriteAllText(@path, Content);
-        }
-
-        public static void RemoveFile(string FileName, string Subdirectory = null)
-        {
-            string path = GetFilePath(FileName, Subdirectory);
-            if (System.IO.File.Exists(path))
-                System.IO.File.Delete(path);
-        }
-
-        public static void DownloadFile(string Uri, string FileName, string Subdirectory = null)
-        {
-            string path = GetFilePath(FileName, Subdirectory);
-
-            if (!Directory.Exists(GetFileParentPath(path)))
-                Directory.CreateDirectory(GetFileParentPath(path));
-
-            new WebClient().DownloadFile(Uri, path);
-        }
+    public static void RemoveFile(string fileName, string? subDirectory = null)
+    {
+        string path = GetFilePath(fileName, subDirectory);
+        if (System.IO.File.Exists(path))
+            System.IO.File.Delete(path);
     }
 }

@@ -1,8 +1,16 @@
-# metabro
-My dumb ass finally found the starr apps, but I'm leaving this up as a testament to the nearly decade of off-and-on work I put into this.
+# MB.Core
 
-Powershell toolkit for Emby media servers, torrent RSS feed parsing, and uTorrent management
+## Cmdlet Documentation
+- [MB.Metadata.Text](./MB.Metadata/docs)
+- [MB.Rss](./MB.Rss/docs)
+- [MB.uTorrent](./MB.uTorrent/docs)
 
-Copy module directories from the releases section to your desired PSModule path and run Import-Module [ModuleName] to import
+## Build a local release
+Run the following from the project directory (requires PowerShell):
 
-~~More info will be coming soon~~, but for now my thanks to whomever wrote the uTorrentAPI.dll file included in this project, without which the torrent management would be nigh-impossible.  I've been using it personally for years, but if anyone can find the credits, I will be more than happy to give credit where it is due to this wonderful developer.
+```powershell
+./scripts/Build-Solution.ps1 -Local
+./scripts/Update-Help.ps1 -Local
+```
+
+Build output can be found in the artifacts directory

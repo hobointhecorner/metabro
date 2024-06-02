@@ -1,0 +1,89 @@
+name: MB.Core
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - 'v*'
+
+  # schedule:
+  #   - cron: '0 0 * * *'
+
+  workflow_dispatch:
+    inputs:
+      make_release:
+        description: Create a release from this pipeline
+        default: 'no'
+        type: choice
+        options:
+          - 'yes'
+          - 'no'
+
+jobs:
+  Build:
+    uses: ./.github/workflows/build_solution.yml
+
+  Docs:
+    uses: ./.github/workflows/build_docs.yml
+    needs: Build
+    with:
+      build_artifact_name: ${{ needs.Build.outputs.artifact_name }}
+      event_source: ${{ github.EVENT_NAME }}
+      event_ref: ${{ github.REF }}
+
+  Release:
+    runs-on: ubuntu-latest
+    needs: Docs
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: test
+        run: |
+          echo ${{ needs.Docs.outputs.artifact_name }}
+
+      - name: Download doc artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.Docs.outputs.artifact_name }}
+          path: ./artifacts
+        
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: MB.Core
+          path: ./artifacts
+          retention-days: 5
+
+      - name: Get package info
+        id: package_info
+        run: |
+          chmod +x ./scripts/get_package_info.sh
+          ./scripts/get_package_info.sh
+        env:
+          SOURCE: ${{ github.EVENT_NAME }}
+          REF_NAME: ${{ github.REF_NAME }}
+          MAKE_RELEASE: ${{ github.event.inputs.make_release }}
+          COMMIT_SHA: ${{ github.sha }})
+
+      - name: Zip artifacts
+        run: |
+          cd ./artifacts
+          zip -r "${{ steps.package_info.outputs.package_name }}" .
+        
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: _release
+          path: ./artifacts/${{ steps.package_info.outputs.package_name }}
+          retention-days: 5
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: steps.package_info.outputs.make_release == 'yes'
+        with:
+          name: ${{ steps.package_info.outputs.package_version }}
+          tag_name: ${{ steps.package_info.outputs.package_version }}
+          prerelease: ${{ steps.package_info.outputs.prerelease }}
+          files: ./artifacts/${{ steps.package_info.outputs.package_name }}
+#

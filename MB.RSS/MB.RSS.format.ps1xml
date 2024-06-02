@@ -2,58 +2,169 @@
 <Configuration>
   <ViewDefinitions>
 
-    <View>
-      <Name>MB.RSS.RssTorrent</Name>
-      <ViewSelectedBy>
-        <TypeName>MB.RSS.RssTorrent</TypeName>
-      </ViewSelectedBy>
-      <TableControl>
-        <TableHeaders>
-          <TableColumnHeader>
-          </TableColumnHeader>
+	  <View>
+		  <Name>MB.Rss.Provider</Name>
+		  <ViewSelectedBy>
+			  <TypeName>MB.Rss.Provider</TypeName>
+		  </ViewSelectedBy>
+		  <TableControl>
+			  <TableHeaders>
+				  <TableColumnHeader>
+					  <Label>Name</Label>
+				  </TableColumnHeader>
 
-          <TableColumnHeader>
-          </TableColumnHeader>
+				  <TableColumnHeader>
+					  <Label>Priority</Label>
+				  </TableColumnHeader>
 
-          <TableColumnHeader>
-          </TableColumnHeader>
+				  <TableColumnHeader>
+					  <Label>Type</Label>
+				  </TableColumnHeader>
 
-          <TableColumnHeader>
-          </TableColumnHeader>
+				  <TableColumnHeader>
+					  <Label>Url</Label>
+				  </TableColumnHeader>
 
-          <TableColumnHeader>
-          </TableColumnHeader>
-          
-          <TableColumnHeader>
-          </TableColumnHeader>
+			  </TableHeaders>
+			  <TableRowEntries>
+				  <TableRowEntry>
+					  <TableColumnItems>
+						  <TableColumnItem>
+							  <PropertyName>Name</PropertyName>
+						  </TableColumnItem>
 
-        </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem>
-                <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>SeriesName</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>SeasonNumber</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>EpisodeNumber</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>AirDate</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Quality</PropertyName>
-              </TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
-      </TableControl>
-    </View>
+						  <TableColumnItem>
+							  <PropertyName>Priority</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Type</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Url</PropertyName>
+						  </TableColumnItem>
+						  
+					  </TableColumnItems>
+				  </TableRowEntry>
+			  </TableRowEntries>
+		  </TableControl>
+	  </View>
+
+	  <View>
+		  <Name>MB.Rss.Torrent</Name>
+		  <ViewSelectedBy>
+			  <TypeName>MB.Rss.Torrent</TypeName>
+		  </ViewSelectedBy>
+		  <TableControl>
+			  <TableHeaders>
+				  <TableColumnHeader>
+					  <Label>Title</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Provider</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Pubdate</Label>
+				  </TableColumnHeader>
+
+			  </TableHeaders>
+			  <TableRowEntries>
+				  <TableRowEntry>
+					  <TableColumnItems>
+						  <TableColumnItem>
+							  <PropertyName>Title</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Provider</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Pubdate</PropertyName>
+						  </TableColumnItem>
+						  
+					  </TableColumnItems>
+				  </TableRowEntry>
+			  </TableRowEntries>
+		  </TableControl>
+	  </View>
+
+	  <View>
+		  <Name>MB.Rss.TorrentInfo</Name>
+		  <ViewSelectedBy>
+			  <TypeName>MB.Rss.TorrentInfo</TypeName>
+		  </ViewSelectedBy>
+		  <TableControl>
+			  <TableHeaders>
+				  <TableColumnHeader>
+					  <Label>Title</Label>
+					  <Width>28</Width>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>SeasonNumber</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>EpisodeNumber</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>AirDate</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>OtherInfo</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Weight</Label>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Provider</Label>
+				  </TableColumnHeader>
+
+			  </TableHeaders>
+			  <TableRowEntries>
+				  <TableRowEntry>
+					  <TableColumnItems>
+						  <TableColumnItem>
+							  <PropertyName>Title</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>SeasonNumber</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>EpisodeNumber</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>AirDate</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>OtherInfo</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Weight</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Provider</PropertyName>
+						  </TableColumnItem>
+
+					  </TableColumnItems>
+				  </TableRowEntry>
+			  </TableRowEntries>
+		  </TableControl>
+	  </View>
     
   </ViewDefinitions>
 </Configuration>

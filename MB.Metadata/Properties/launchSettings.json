@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MB.TextParsing": {
+      "commandName": "Executable",
+      "executablePath": "pwsh",
+      "commandLineArgs": "-NoExit -NoProfile -Command \"&{ Import-Module ./MB.Metadata.Text.dll }\""
+    }
+  }
+}
