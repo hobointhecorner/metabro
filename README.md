@@ -1,6 +1,8 @@
 # metabro
 My dumb ass finally found the starr apps, but I'm leaving this up as a testament to the nearly decade of off-and-on work I put into this.
 
+I had grand deigns on a .NET Core rewrite, and I got pretty much everything completed but the Emby module.  Check out the MB.Core branch if you're interested.
+
 Powershell toolkit for Emby media servers, torrent RSS feed parsing, and uTorrent management
 
 Copy module directories from the releases section to your desired PSModule path and run Import-Module [ModuleName] to import
